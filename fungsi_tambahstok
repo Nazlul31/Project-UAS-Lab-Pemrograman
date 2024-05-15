@@ -1,4 +1,4 @@
-/ Fungsi untuk menambah stok barang
+//Fungsi untuk menambah stok barang
 void tambah_stok() {
 	printf("-----TAMBAH STOK-----\n");
     char nama_barang[50];
@@ -31,7 +31,7 @@ void tambah_stok() {
     rename("temp_barang_tersedia.txt", "barang_tersedia.txt");
 
     if (found)
-        printf("Berhasil\n");
+        printf("Barang berhasil ditambahkan\n");
     else
         printf("Barang tidak ditemukan.\n");
 }
