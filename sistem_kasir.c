@@ -5,8 +5,8 @@
 
 bool login();
 void tambah_barang();
-void kurangi_stok();
 void tambah_stok();
+void kurangi_stok();
 void lihat_daftar_barang();
 void pembayaran();
 void hapus_barang();
@@ -19,7 +19,7 @@ struct Barang {
 };
 
 int main() {
-	int login_berhasil = false; // Variabel untuk menandakan apakah login berhasil
+    int login_berhasil = false; // Variabel untuk menandakan apakah login berhasil
     
     do {
         if (login()) {
@@ -34,8 +34,8 @@ int main() {
         printf("\n	  MENU\n");
 	printf("------------------------\n");
         printf("|1. Tambah Barang	|\n");
-        printf("|2. Kurangi Stok Barang	|\n");
-	printf("|3. Tambah Stok Barang	|\n");
+        printf("|2. Tambah Stok Barang	|\n");
+	printf("|3. Kurangi Stok Barang	|\n");
         printf("|4. Lihat Daftar Barang	|\n");
         printf("|5. Pembayaran		|\n");
         printf("|6. Hapus Barang	|\n");
@@ -49,10 +49,10 @@ int main() {
           tambah_barang();
           break;
         case 2:
-          kurangi_stok();
+          tambah_stok();
           break;
 	case 3:
-	  tambah_stok();
+          kurangi_stok();
 	  break;
         case 4:
           lihat_daftar_barang();
@@ -155,6 +155,44 @@ void tambah_barang() {
     printf("Berhasil\n");
 }
 
+// Fungsi untuk menambah stok barang
+void tambah_stok() {
+	printf("-----TAMBAH STOK-----\n");
+    char nama_barang[50];
+    int jumlah;
+    int found = 0;
+
+    printf("Nama barang		: ");
+    scanf("%s", nama_barang);
+
+    printf("Jumlah			: ");
+    scanf("%d", &jumlah);
+
+    FILE *file = fopen("barang_tersedia.txt", "r");
+    FILE *temp_file = fopen("temp_barang_tersedia.txt", "w");
+
+    struct Barang barang;
+
+    while (fscanf(file, "%s %f %d", barang.nama, &barang.harga, &barang.stok) != EOF) {
+        if (strcmp(nama_barang, barang.nama) == 0) {
+            found = 1;
+            barang.stok += jumlah;
+        }
+        fprintf(temp_file, "%s %.2f %d\n", barang.nama, barang.harga, barang.stok);
+    }
+
+    fclose(file);
+    fclose(temp_file);
+
+    remove("barang_tersedia.txt");
+    rename("temp_barang_tersedia.txt", "barang_tersedia.txt");
+
+    if (found)
+        printf("Berhasil\n");
+    else
+        printf("Barang tidak ditemukan.\n");
+}
+
 // Fungsi untuk mengurangi stok barang
 void kurangi_stok() {
 	printf("-----KURANGI STOK-----\n");
@@ -197,43 +235,6 @@ void kurangi_stok() {
         printf("Barang tidak ditemukan.\n");
 }
 
-// Fungsi untuk menambah stok barang
-void tambah_stok() {
-	printf("-----TAMBAH STOK-----\n");
-    char nama_barang[50];
-    int jumlah;
-    int found = 0;
-
-    printf("Nama barang		: ");
-    scanf("%s", nama_barang);
-
-    printf("Jumlah			: ");
-    scanf("%d", &jumlah);
-
-    FILE *file = fopen("barang_tersedia.txt", "r");
-    FILE *temp_file = fopen("temp_barang_tersedia.txt", "w");
-
-    struct Barang barang;
-
-    while (fscanf(file, "%s %f %d", barang.nama, &barang.harga, &barang.stok) != EOF) {
-        if (strcmp(nama_barang, barang.nama) == 0) {
-            found = 1;
-            barang.stok += jumlah;
-        }
-        fprintf(temp_file, "%s %.2f %d\n", barang.nama, barang.harga, barang.stok);
-    }
-
-    fclose(file);
-    fclose(temp_file);
-
-    remove("barang_tersedia.txt");
-    rename("temp_barang_tersedia.txt", "barang_tersedia.txt");
-
-    if (found)
-        printf("Berhasil\n");
-    else
-        printf("Barang tidak ditemukan.\n");
-}
 
 // Fungsi untuk melihat daftar barang yang tersedia
 void lihat_daftar_barang() {
