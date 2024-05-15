@@ -2,7 +2,7 @@
 Project Sistem Kasir
 Kelompok 2 Project UAS Lab Pemrograman B
 Anggota Kelompok
-- Randy Maulana             (2308107010036)
+- Randy Maulana             (2308107010054)
 - Muhammad Nazlul Ramadhyan (2308107010036)
 - Bunga Rasikhah Haya       (2308107010010)
 
