@@ -3,13 +3,78 @@
 #include <stdlib.h>
 #include <string.h>
 
+bool login();
+void tambah_barang();
+void kurangi_stok();
+void tambah_stok();
+void lihat_daftar_barang();
+void pembayaran();
+void hapus_barang();
+
 // Struktur data untuk menyimpan informasi barang
 struct Barang {
     char nama[50];
     float harga;
     int stok;
 };
-// Login
+
+int main() {
+	int login_berhasil = false; // Variabel untuk menandakan apakah login berhasil
+    
+    do {
+        if (login()) {
+            login_berhasil = true;
+        }
+    } while (!login_berhasil); // Melakukan loop selama login belum berhasil
+    
+	int pilihan;
+
+    do {
+	printf("\n\n------------------------");
+        printf("\n	  MENU\n");
+	printf("------------------------\n");
+        printf("|1. Tambah Barang	|\n");
+        printf("|2. Kurangi Stok Barang	|\n");
+	printf("|3. Tambah Stok Barang	|\n");
+        printf("|4. Lihat Daftar Barang	|\n");
+        printf("|5. Pembayaran		|\n");
+        printf("|6. Hapus Barang	|\n");
+        printf("|7. Keluar		|\n");
+        printf("------------------------\n");
+        printf("Pilihan MENU: ");
+        scanf("%d", &pilihan);
+
+        switch (pilihan) {
+        case 1:
+          tambah_barang();
+          break;
+        case 2:
+          kurangi_stok();
+          break;
+	case 3:
+	  tambah_stok();
+	  break;
+        case 4:
+          lihat_daftar_barang();
+          break;
+        case 5:
+          pembayaran();
+          break;
+        case 6:
+          hapus_barang();
+          break;
+	case 7:
+	  break;
+        default:
+          printf("Silakan coba lagi.\n");
+          break;
+        }
+    } while (pilihan != 7);
+
+    return 0;
+}
+
+// Fungsi Login
 bool login() {
     char username[20];
     char password[20];
@@ -45,9 +110,10 @@ bool login() {
         return false;
     }
 }
+
 // Fungsi untuk menambahkan barang ke toko
 void tambah_barang() {
-	printf("-----TAMBAH BARANG-----\n");
+    printf("-----TAMBAH BARANG-----\n");
     FILE *file = fopen("barang_tersedia.txt", "r");
     struct Barang barang;
     char nama_barang_baru[50];
@@ -61,9 +127,9 @@ void tambah_barang() {
 
     // Memeriksa apakah nama barang sudah ada dalam daftar
     while (fscanf(file, "%s %f %d", barang.nama, &barang.harga, &barang.stok) != EOF) {
-        if (strcmp(nama_barang_baru, barang.nama) == 0) {
-            found = 1;
-            break;
+      if (strcmp(nama_barang_baru, barang.nama) == 0) {
+        found = 1;
+        break;
         }
     }
 
@@ -71,8 +137,8 @@ void tambah_barang() {
 
     // Jika nama barang sudah ada, beri pesan kesalahan
     if (found) {
-        printf("Barang sudah terdaftar.\n");
-        return;
+      printf("Barang sudah terdaftar.\n");
+      return;
     }
 
     // Jika nama barang belum ada, lanjutkan proses penambahan barang
@@ -88,6 +154,7 @@ void tambah_barang() {
 
     printf("Berhasil\n");
 }
+
 // Fungsi untuk mengurangi stok barang
 void kurangi_stok() {
 	printf("-----KURANGI STOK-----\n");
@@ -198,16 +265,16 @@ void pembayaran() {
     scanf("%d", &jumlah_beli);
 
     while (fscanf(file, "%s %f %d", barang.nama, &barang.harga, &barang.stok) != EOF) {
-        if (strcmp(nama_barang, barang.nama) == 0) {
-            found = 1;
-            if (barang.stok >= jumlah_beli) {
-                barang.stok -= jumlah_beli;
-                total_pembelian = barang.harga * jumlah_beli;
-            } else {
+      if (strcmp(nama_barang, barang.nama) == 0) {
+          found = 1;
+        if (barang.stok >= jumlah_beli) {
+            barang.stok -= jumlah_beli;
+            total_pembelian = barang.harga * jumlah_beli;
+        } else {
                 printf("Stok barang tidak mencukupi.\n");
-            }
-        }
-        fprintf(temp_file, "%s %.2f %d\n", barang.nama, barang.harga, barang.stok);
+          }
+      }
+      fprintf(temp_file, "%s %.2f %d\n", barang.nama, barang.harga, barang.stok);
     }
 
     fclose(file);
@@ -232,7 +299,7 @@ void pembayaran() {
     }
 }
 
-   // Fungsi untuk menghapus barang dari daftar
+// Fungsi untuk menghapus barang dari daftar
 void hapus_barang() {
     printf("-----HAPUS BARANG-----\n");
     char nama_barang[50];
@@ -267,60 +334,4 @@ void hapus_barang() {
 
     if (!found)
         printf("Barang tidak ditemukan.\n");
-}
-   
-int main() {
-	int login_berhasil = false; // Variabel untuk menandakan apakah login berhasil
-    
-    do {
-        if (login()) {
-            login_berhasil = true;
-        }
-    } while (!login_berhasil); // Melakukan loop selama login belum berhasil
-    
-	int pilihan;
-
-    do {
-		printf("\n\n------------------------");
-        printf("\n	  MENU\n");
-		printf("------------------------\n");
-        printf("|1. Tambah Barang	|\n");
-        printf("|2. Kurangi Stok Barang	|\n");
-		printf("|3. Tambah Stok Barang	|\n");
-        printf("|4. Lihat Daftar Barang	|\n");
-        printf("|5. Pembayaran		|\n");
-        printf("|6. Hapus Barang	|\n");
-        printf("|7. Keluar		|\n");
-        printf("------------------------\n");
-        printf("Pilihan MENU: ");
-        scanf("%d", &pilihan);
-
-        switch (pilihan) {
-            case 1:
-                tambah_barang();
-                break;
-            case 2:
-                kurangi_stok();
-                break;
-			case 3:
-				tambah_stok();
-				break;
-            case 4:
-                lihat_daftar_barang();
-                break;
-            case 5:
-                pembayaran();
-                break;
-            case 6:
-                hapus_barang();
-                break;
-			case 7:
-				break;
-            default:
-                printf("Silakan coba lagi.\n");
-                break;
-        }
-    } while (pilihan != 7);
-
-    return 0;
 }
