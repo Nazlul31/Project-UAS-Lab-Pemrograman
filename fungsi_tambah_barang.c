@@ -16,3 +16,17 @@ void tambah_barang() {
         }
     }
     fclose(file);
+
+ // Jika nama barang belum ada, lanjutkan proses penambahan barang
+    file = fopen("barang_tersedia.txt", "a");
+
+    printf("Masukkan harga barang	: ");
+    scanf("%f", &barang.harga);
+    printf("Masukkan stok barang	: ");
+    scanf("%d", &barang.stok);
+
+    fprintf(file, "%s %.2f %d\n", nama_barang_baru, barang.harga, barang.stok);
+    fclose(file);
+
+    printf("Berhasil\n");
+}
