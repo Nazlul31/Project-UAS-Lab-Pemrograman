@@ -4,8 +4,10 @@ void hapus_barang() {
     int found = 0;
 
     printf("Nama barang: ");
-    scanf("%s", nama_barang);
-
+    getchar();
+    fgets(nama_barang, sizeof(nama_barang), stdin);
+    nama_barang[strcspn(nama_barang, "\n")] ='\0';
+    
     FILE *file = fopen("barang_tersedia.txt", "r");
     FILE *temp_file = fopen("temp_barang_tersedia.txt", "w");
     
